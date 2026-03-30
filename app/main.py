@@ -12,7 +12,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-@app.get("/")
+@app.get("/hello")
 def read_root():
     return { "msg": "Hej Ellinor!"}
 
@@ -24,3 +24,12 @@ def ip(request: Request):
 @app.get("/ip", response_class=HTMLResponse)
 def ip(request: Request):
     return f"<h1>Din ip är {request.client.host}</h1>"
+
+@app.get("/rooms")
+def get_rooms():
+    rooms = [
+        {"number":101, "persons":2, "price":60},
+        {"number":102, "persons":1, "price":50},
+        {"number":103, "persons":4, "price":80}
+    ]
+    return rooms
