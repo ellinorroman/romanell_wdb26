@@ -9,28 +9,27 @@ app.add_middleware(
     allow_origins=["*"],
     allow_credentials=True,
     allow_methods=["*"],
-    allow_headers=["*"]
+    allow_headers=["*"],
 )
 
-@app.get("/")
+@app.get("/hello")
 def read_root():
-    return { "msg": "Välkommen till hotellets boknings-API"}
+    return { "msg": "Hej Ellinor!"}
 
 @app.get("/api/ip")
 def ip(request: Request):
     return { "ip": request.client.host}
 
-rooms = [
-    {"number":101, "persons":2, "price":60},
-    {"number":102, "persons":1, "price":50},
-    {"number":103, "persons":4, "price":80}
-]
+
+@app.get("/ip", response_class=HTMLResponse)
+def ip(request: Request):
+    return f"<h1>Din ip är {request.client.host}</h1>"
 
 @app.get("/rooms")
 def get_rooms():
+    rooms = [
+        {"number":101, "persons":2, "price":60},
+        {"number":102, "persons":1, "price":50},
+        {"number":103, "persons":4, "price":80}
+    ]
     return rooms
-
-@app.post("/bookings")
-def create_booking():
-    # skapa bokning, INSERT INTO bookings 
-    return {"msg": "Bokning skapad!"}
