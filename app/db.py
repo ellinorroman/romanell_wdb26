@@ -96,3 +96,4 @@ def create_booking(booking: Booking):
         ))
         new_booking = cur.fetchone()
     return { "msg": "Booking created!", "id": new_booking['id']}
+
