@@ -7,11 +7,7 @@ def get_conn():
 
 def create_schema():
     with get_conn() as conn, conn.cursor() as cur:
-        # Create the schema
         cur.execute("""
-                    
-            CREATE EXTENSION IF NOT EXISTS pgcrypto;
-                
             CREATE TABLE IF NOT EXISTS rooms (
                 id SERIAL PRIMARY KEY,
                 room_number INT NOT NULL,
@@ -20,7 +16,7 @@ def create_schema():
             ALTER TABLE rooms ADD COLUMN IF NOT EXISTS room_type VARCHAR;
             ALTER TABLE rooms ADD COLUMN IF NOT EXISTS price NUMERIC;
 
-            
+
             CREATE TABLE IF NOT EXISTS guests (
                 id SERIAL PRIMARY KEY,
                 firstname VARCHAR NOT NULL,
@@ -28,9 +24,8 @@ def create_schema():
                 created_at TIMESTAMP DEFAULT now(),
                 address VARCHAR
             );
-            ALTER TABLE guests ADD COLUMN IF NOT EXISTS api_key VARCHAR DEFAULT encode(gen_random_bytes(32), 'hex');
                     
-            
+
             CREATE TABLE IF NOT EXISTS bookings (
                 id SERIAL PRIMARY KEY,
                 guest_id INT REFERENCES guests(id), -- foreign key (främmande nyckel)
@@ -39,6 +34,4 @@ def create_schema():
                 dateto DATE,
                 info VARCHAR
             );
-            ALTER TABLE bookings ADD COLUMN IF NOT EXISTS stars INT;
-
         """)
